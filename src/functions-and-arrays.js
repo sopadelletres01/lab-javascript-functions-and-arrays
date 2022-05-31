@@ -1,24 +1,52 @@
 // Iteration #1: Find the maximum
-function maxOfTwoNumbers() {}
+function maxOfTwoNumbers(num1,num2) {
+  return num1 > num2 ? num1 
+    : num2 > num1 ? num2 
+    : num1;
+}
 
 
 
 // Iteration #2: Find longest word
 const words = ['mystery', 'brother', 'aviator', 'crocodile', 'pearl', 'orchard', 'crackpot'];
 
-function findLongestWord() {}
+function findLongestWord(words) {
+  if ( words.length <= 0 ) return null
+  let longest = words[0]
+  words.forEach(word => {
+    //La condicion es que sea mayor para que coja la primera ocurrencia de palabras con el mismo tamaño
+    if ( word.length > longest.length ) longest = word
+  });
+  return longest
+}
 
 
 
 // Iteration #3: Calculate the sum
 const numbers = [6, 12, 1, 18, 13, 16, 2, 1, 8, 10];
 
-function sumNumbers() {}
+function sumNumbers(numbers) {
+  let sum = 0;
+  numbers.forEach(number => {
+    sum+=number
+  })
+  return sum
+}
 
 
-
+const mixedArr = [6, 12, 'miami', 1, true, 'barca', '200', 'lisboa', 8, 10]
 // Iteration #3.1 Bonus:
-function sum() {}
+function sum(elements) {
+  
+  let sum = 0;
+  elements.forEach(elem => {
+    if ( typeof elem === "string" ) sum+=elem.length
+    if ( typeof elem === "number" ) sum+=elem
+    if ( typeof elem === "boolean" ) sum+=Number(elem)
+    if ( typeof elem === "object" || Array.isArray(elem)) throw new Error("Unsupported data type sir or ma'am")
+  })
+  return sum
+}
 
 
 
@@ -26,16 +54,31 @@ function sum() {}
 // Level 1: Array of numbers
 const numbersAvg = [2, 6, 9, 10, 7, 4, 1, 9];
 
-function averageNumbers() {}
+function averageNumbers(numbers) {
+  if ( numbers.length <= 0 ) return null
+  let sum = sumNumbers(numbers)
+  let average = sum / numbers.length
+  return average
+}
 
 
 // Level 2: Array of strings
 const wordsArr = ['seat', 'correspond', 'linen', 'motif', 'hole', 'smell', 'smart', 'chaos', 'fuel', 'palace'];
 
-function averageWordLength() { }
+function averageWordLength(words) {
+  if ( words.length <= 0 ) return null
+  let suma = sum(words)
+  let average = suma / words.length
+  return average
+}
 
 // Bonus - Iteration #4.1
-function avg() {}
+function avg(elements) {
+  if ( elements.length <= 0 ) return null
+  let suma = sum(elements)
+  let average = Number((suma / elements.length).toFixed(2))
+  return average
+}
 
 // Iteration #5: Unique arrays
 const wordsUnique = [
@@ -52,14 +95,24 @@ const wordsUnique = [
   'bring'
 ];
 
-function uniquifyArray() {}
+function uniquifyArray(words) {
+  if ( words.length <= 0 ) return null
+  let uniqueArray =  []
+  words.forEach((word) => {
+    if ( uniqueArray.indexOf(word) === -1) uniqueArray.push(word)
+  })
+  return uniqueArray
+}
 
 
 
 // Iteration #6: Find elements
 const wordsFind = ['machine', 'subset', 'trouble', 'starting', 'matter', 'eating', 'truth', 'disobedience'];
 
-function doesWordExist() {}
+function doesWordExist(wordsArray,word) {
+  if ( wordsArray.length <= 0 ) return null
+  return wordsArray.includes(word)
+}
 
 
 
@@ -78,7 +131,14 @@ const wordsCount = [
   'matter'
 ];
 
-function howManyTimes() {}
+function howManyTimes(wordsArray,word) {
+  if ( wordsArray.length <= 0 ) return 0
+  let timesRep = 0;
+  wordsArray.forEach((w) => {
+    if ( w === word ) timesRep+=1
+  })
+  return timesRep
+}
 
 
 
@@ -106,8 +166,51 @@ const matrix = [
   [1, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 1, 89, 19, 67, 48]
 ];
 
-function greatestProduct() {}
 
+
+function greatestProduct(bigMatrix) {
+  let result,max = 0;
+  for (let i = 0; i < bigMatrix.length; i++) {
+    const row = bigMatrix[i];
+    for (let j = 0; j < bigMatrix.length; j++) {
+      //Comprobamos que se puedan coger 4 numeros en una linea (que no tengamos problemas de index out of range)
+      if ((j - 3) >= 0){
+        result = row[j] * row[j - 1] * row[j - 2] * row[j - 3];
+        if (max < result)
+          max = result;
+      }
+      if ((i - 3) >= 0){
+        result = bigMatrix[i][j] * bigMatrix[i - 1][j] * bigMatrix[i - 2][j] * bigMatrix[i - 3][j];
+        if (max < result)
+          max = result;
+      }
+    }
+  }
+  return result
+}
+
+//12
+//234
+//3451
+//23142
+
+
+function greatestProductOfDiagonals(matrix) {
+  let result,max = 0;
+  //filas
+  for (let row = 0; row < matrix.length; row++) {
+    //elementos row ( columna )
+    for (let col = 0; col < matrix.length; col++) {
+      //Comprobamos que se puedan coger 4 numeros en una linea (que no tengamos problemas de index out of range)
+      if ((col - 3) >= 0 && (row - 3) >= 0){
+        result = matrix[row][col] * matrix[row - 1][col - 1] * matrix[row - 2][col - 2] * matrix[row - 3][col - 3];
+        if (max < result)
+          max = result;
+      }
+    }
+  }
+  return result
+}
 
 
 
@@ -125,6 +228,7 @@ if (typeof module !== 'undefined') {
     uniquifyArray,
     doesWordExist,
     howManyTimes,
-    greatestProduct
+    greatestProduct,
+    greatestProductOfDiagonals
   };
 }
